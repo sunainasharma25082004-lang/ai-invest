@@ -1,0 +1,14 @@
+---
+pid: 14228
+cwd: "C:\Users\hi\OneDrive\Desktop\all web\AI-INVEST"
+command: "cmd /c \"cd /d C:\\Users\\hi\\OneDrive\\Desktop\\all web\\AI-INVEST && npm install\""
+started_at: 2026-06-29T08:06:20.536Z
+running_for_ms: 4315015  
+---
+
+added 27 packages, and audited 28 packages in 29s
+
+9 packages are looking for funding
+  run `npm fund` for details
+
+found 0 vulnerabilities

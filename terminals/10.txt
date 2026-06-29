@@ -1,0 +1,30 @@
+---
+pid: 14768
+cwd: "C:\Users\hi\OneDrive\Desktop\all web\AI-INVEST"
+command: "Set-Location \"C:\\Users\\hi\\OneDrive\\Desktop\\all web\\AI-INVEST\"; npm run build; $env:NODE_ENV=\"production\"; $env:JWT_SECRET=\"test-production-secret\"; npm start"
+started_at: 2026-06-29T10:56:59.053Z
+running_for_ms: 1664929  
+---
+
+> ai-invest@0.0.0 build
+> tsc -b && vite build
+
+vite v8.1.0 building client environment for production...
+transforming...✓ 55 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                     0.96 kB │ gzip:  0.50 kB
+dist/assets/logo-bg-Cx_bysi_.png   59.29 kB
+dist/assets/index-Blul6PX1.css     36.03 kB │ gzip:  6.68 kB
+dist/assets/index-CY_WGkK-.js     219.55 kB │ gzip: 68.08 kB
+
+✓ built in 15.68s
+
+> ai-invest@0.0.0 start
+> npm start --prefix server
+
+
+> ai-invest-server@1.0.0 start
+> node index.js
+
+Failed to start server: Could not connect to any servers in your MongoDB Atlas cluster. One common reason is that you're trying to access the database from an IP that isn't whitelisted. Make sure your current IP address is on your Atlas cluster's IP whitelist: https://www.mongodb.com/docs/atlas/security-whitelist/

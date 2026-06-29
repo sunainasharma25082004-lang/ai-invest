@@ -1,0 +1,21 @@
+---
+pid: 14568
+cwd: "C:\Users\hi\OneDrive\Desktop\all web\AI-INVEST"
+command: "Set-Location \"C:\\Users\\hi\\OneDrive\\Desktop\\all web\\AI-INVEST\"; npm run build"
+started_at: 2026-06-29T10:44:29.544Z
+running_for_ms: 2400027  
+---
+
+> ai-invest@0.0.0 build
+> tsc -b && vite build
+
+vite v8.1.0 building client environment for production...
+transforming...✓ 55 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                   0.96 kB │ gzip:  0.49 kB
+dist/assets/logo-4Cn-BEfL.png    97.13 kB
+dist/assets/index-Blul6PX1.css   36.03 kB │ gzip:  6.68 kB
+dist/assets/index-CorOpS80.js   219.55 kB │ gzip: 68.08 kB
+
+✓ built in 2.03s

@@ -1,0 +1,24 @@
+[
+  {
+    "id": "ed20bfd1-409c-4fd6-9daa-8013f7647773",
+    "firstName": "Test",
+    "lastName": "User",
+    "email": "test@example.com",
+    "phone": "123",
+    "passwordHash": "$2b$10$z2YObyYdQ0ShrtZF35jzNeoYdnxKj1.zPEwqvzvtXPKJI/WDd9oRO",
+    "riskAcknowledged": true,
+    "newsletterConsent": false,
+    "createdAt": "2026-06-29T10:32:53.944Z"
+  },
+  {
+    "id": "0323e4bb-69c7-4d48-8426-ebdc938e2227",
+    "firstName": "Mongo",
+    "lastName": "User",
+    "email": "mongo@test.com",
+    "phone": "999",
+    "passwordHash": "$2b$10$sFDahWYrUpn4XyEXq7YnietAghejjj5gU2VwsILnhzReZSujYuN36",
+    "riskAcknowledged": true,
+    "newsletterConsent": true,
+    "createdAt": "2026-06-29T10:38:25.795Z"
+  }
+]

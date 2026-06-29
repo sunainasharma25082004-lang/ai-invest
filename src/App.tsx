@@ -1,0 +1,27 @@
+import Navbar from './components/Navbar'
+import Hero from './components/Hero'
+import About from './components/About'
+import Features from './components/Features'
+import Compliance from './components/Compliance'
+import RiskDisclaimer from './components/RiskDisclaimer'
+import SignupForm from './components/SignupForm'
+import Legal from './components/Legal'
+import Footer from './components/Footer'
+
+export default function App() {
+  return (
+    <div className="min-h-screen bg-slate-950 text-slate-200">
+      <Navbar />
+      <main>
+        <Hero />
+        <About />
+        <Features />
+        <Compliance />
+        <RiskDisclaimer />
+        <SignupForm />
+        <Legal />
+      </main>
+      <Footer />
+    </div>
+  )
+}

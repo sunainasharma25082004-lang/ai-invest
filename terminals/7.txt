@@ -1,0 +1,13 @@
+---
+pid: 8928
+cwd: "C:\Users\hi\OneDrive\Desktop\all web\AI-INVEST"
+command: "Set-Location \"C:\\Users\\hi\\OneDrive\\Desktop\\all web\\AI-INVEST\\server\"; npm start"
+started_at: 2026-06-29T10:38:45.021Z
+running_for_ms: 2759968  
+---
+
+> ai-invest-server@1.0.0 start
+> node index.js
+
+MongoDB connected
+Server running on http://localhost:3001

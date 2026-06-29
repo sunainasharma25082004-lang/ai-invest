@@ -1,0 +1,14 @@
+---
+pid: 12284
+cwd: "C:\Users\hi\OneDrive\Desktop\all web\AI-INVEST"
+command: "cmd /c \"cd /d C:\\Users\\hi\\OneDrive\\Desktop\\all web\\AI-INVEST && npm install lucide-react\""
+started_at: 2026-06-29T08:09:08.099Z
+running_for_ms: 4150006  
+---
+
+added 1 package, and audited 50 packages in 42s
+
+10 packages are looking for funding
+  run `npm fund` for details
+
+found 0 vulnerabilities

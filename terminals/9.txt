@@ -1,0 +1,23 @@
+---
+pid: 2524
+cwd: "C:\Users\hi\OneDrive\Desktop\all web\AI-INVEST"
+command: "Set-Location \"C:\\Users\\hi\\OneDrive\\Desktop\\all web\\AI-INVEST\"; npm run build"
+started_at: 2026-06-29T10:53:07.354Z
+running_for_ms: 1885074  
+---
+
+> ai-invest@0.0.0 build
+> tsc -b && vite build
+
+vite v8.1.0 building client environment for production...
+transforming...✓ 55 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                     0.96 kB │ gzip:  0.50 kB
+dist/assets/logo-bg-Cx_bysi_.png   59.29 kB
+dist/assets/index-Blul6PX1.css     36.03 kB │ gzip:  6.68 kB
+dist/assets/index-CY_WGkK-.js     219.55 kB │ gzip: 68.08 kB
+
+[PLUGIN_TIMINGS] Your build spent significant time in plugin `vite:prepare-out-dir`. See https://rolldown.rs/reference/InputOptions.checks#plugintimings for more details.
+
+✓ built in 14.86s

@@ -1,0 +1,12 @@
+---
+pid: 14136
+cwd: "C:\Users\hi\OneDrive\Desktop\all web\AI-INVEST"
+command: "Set-Location \"C:\\Users\\hi\\OneDrive\\Desktop\\all web\\AI-INVEST\\server\"; npm start"
+started_at: 2026-06-29T10:32:35.812Z
+running_for_ms: 3130171  
+---
+
+> ai-invest-server@1.0.0 start
+> node index.js
+
+Server running on http://localhost:3001

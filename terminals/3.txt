@@ -1,0 +1,17 @@
+---
+pid: 12428
+cwd: "C:\Users\hi\OneDrive\Desktop\all web\AI-INVEST"
+command: "cmd /c \"cd /d C:\\Users\\hi\\OneDrive\\Desktop\\all web\\AI-INVEST && npm run dev\""
+started_at: 2026-06-29T08:11:29.940Z
+running_for_ms: 4025015  
+---
+
+> ai-invest@0.0.0 dev
+> vite
+
+
+  VITE v8.1.0  ready in 1452 ms
+
+  ➜  Local:   http://localhost:5173/
+  ➜  Network: use --host to expose
+1:41:35 pm [vite] (client) [optimizer] bundling dependencies...

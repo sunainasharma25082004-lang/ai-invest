@@ -3,7 +3,7 @@ pid: 7764
 cwd: "C:\Users\hi\OneDrive\Desktop\all web\AI-INVEST"
 command: "cd \"C:\\Users\\hi\\OneDrive\\Desktop\\all web\\AI-INVEST\\server\"; npm run build"
 started_at: 2026-07-01T06:26:40.662Z
-running_for_ms: 1549995  
+running_for_ms: 1955001  
 ---
 
 > ai-invest-server@1.0.0 build

@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "node --watch index.js",
     "start": "node index.js",
-    "build": "npm install --include=dev --prefix .. && npm run build --prefix .."
+    "build": "node scripts/build-frontend.mjs",
+    "postinstall": "node scripts/render-postinstall.mjs"
   },
   "engines": {
     "node": ">=20"

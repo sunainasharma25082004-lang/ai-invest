@@ -3,7 +3,8 @@ services:
     name: ai-invest
     runtime: node
     plan: free
-    buildCommand: npm install --include=dev && npm run build && npm install --prefix server
+    rootDir: server
+    buildCommand: npm install && npm run build
     startCommand: npm start
     healthCheckPath: /api/health
     envVars:

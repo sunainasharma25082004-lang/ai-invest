@@ -5,7 +5,7 @@ import { fileURLToPath } from 'node:url'
 
 const serverDir = join(dirname(fileURLToPath(import.meta.url)), '..')
 const rootDir = join(serverDir, '..')
-const distIndex = join(serverDir, 'dist', 'index.html')
+const distIndex = join(rootDir, 'dist', 'index.html')
 
 const env = {
   ...process.env,

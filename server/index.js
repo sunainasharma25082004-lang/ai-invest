@@ -11,7 +11,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url))
 dotenv.config({ path: path.join(__dirname, '.env') })
 dotenv.config({ path: path.join(__dirname, '../.env') })
 
-const distPath = path.join(__dirname, 'dist')
+const distPath = path.join(__dirname, '..', 'dist')
 const isProduction = process.env.NODE_ENV === 'production'
 
 const app = express()

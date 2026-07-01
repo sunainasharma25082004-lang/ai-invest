@@ -3,7 +3,7 @@ import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const isRender = Boolean(process.env.RENDER)
-const distIndex = join(dirname(fileURLToPath(import.meta.url)), '..', 'dist', 'index.html')
+const distIndex = join(dirname(fileURLToPath(import.meta.url)), '..', '..', 'dist', 'index.html')
 
 if (!isRender) {
   process.exit(0)

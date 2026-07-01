@@ -3,7 +3,7 @@ pid: 14768
 cwd: "C:\Users\hi\OneDrive\Desktop\all web\AI-INVEST"
 command: "Set-Location \"C:\\Users\\hi\\OneDrive\\Desktop\\all web\\AI-INVEST\"; npm run build; $env:NODE_ENV=\"production\"; $env:JWT_SECRET=\"test-production-secret\"; npm start"
 started_at: 2026-06-29T10:56:59.053Z
-running_for_ms: 1664929  
+running_for_ms: 3749914  
 ---
 
 > ai-invest@0.0.0 build

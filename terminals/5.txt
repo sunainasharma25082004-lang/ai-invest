@@ -3,7 +3,7 @@ pid: 12444
 cwd: "C:\Users\hi\OneDrive\Desktop\all web\AI-INVEST"
 command: "Set-Location \"C:\\Users\\hi\\OneDrive\\Desktop\\all web\\AI-INVEST\\server\"; npm install mongoose"
 started_at: 2026-06-29T10:37:49.154Z
-running_for_ms: 2800016  
+running_for_ms: 4885047  
 ---
 
 added 17 packages, and audited 103 packages in 17s

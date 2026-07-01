@@ -3,7 +3,7 @@ pid: 11756
 cwd: "C:\Users\hi\OneDrive\Desktop\all web\AI-INVEST"
 command: "Stop-Process -Id 14136 -Force -ErrorAction SilentlyContinue; Set-Location \"C:\\Users\\hi\\OneDrive\\Desktop\\all web\\AI-INVEST\\server\"; npm start"
 started_at: 2026-06-29T10:38:11.635Z
-running_for_ms: 2795057  
+running_for_ms: 4875092  
 ---
 
 > ai-invest-server@1.0.0 start

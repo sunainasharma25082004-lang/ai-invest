@@ -1,19 +1,11 @@
 {
-  "name": "ai-invest",
+  "name": "ai-invest-admin",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "dev:server": "npm run dev --prefix server",
-    "dev:admin": "npm run dev --prefix admin",
     "build": "tsc -b && vite build",
-    "build:admin": "npm run build --prefix admin",
-    "build:all": "npm run build && npm run build:admin",
-    "build:vps": "npm run build && VITE_BASE_PATH=/ npm run build --prefix admin",
-    "build:render": "npm install --include=dev && npm run build && npm install --prefix server",
-    "start": "npm start --prefix server",
-    "lint": "oxlint",
     "preview": "vite preview"
   },
   "engines": {
@@ -30,7 +22,6 @@
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^6.0.2",
-    "oxlint": "^1.69.0",
     "tailwindcss": "^4.3.1",
     "typescript": "~6.0.2",
     "vite": "^8.1.0"

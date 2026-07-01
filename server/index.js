@@ -6,6 +6,7 @@ import { existsSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import { connectDB } from './db/connect.js'
 import authRoutes from './routes/auth.js'
+import adminRoutes from './routes/admin.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 dotenv.config({ path: path.join(__dirname, '.env') })
@@ -22,9 +23,11 @@ const CLIENT_ORIGIN =
 const allowedOrigins = new Set(
   [
     CLIENT_ORIGIN,
+    process.env.ADMIN_ORIGIN,
     process.env.RENDER_EXTERNAL_URL,
     'http://localhost:5173',
     'http://localhost:4173',
+    'http://localhost:5174',
   ].filter(Boolean),
 )
 
@@ -61,6 +64,7 @@ app.get('/api/health', (_req, res) => {
 })
 
 app.use('/api/auth', authRoutes)
+app.use('/api/admin', adminRoutes)
 
 app.use((req, res, next) => {
   if (req.path.startsWith('/api')) {
@@ -69,7 +73,9 @@ app.use((req, res, next) => {
   next()
 })
 
-if (isProduction) {
+const serveStatic = process.env.SERVE_STATIC !== 'false'
+
+if (isProduction && serveStatic) {
   const indexHtml = path.join(distPath, 'index.html')
   if (!existsSync(indexHtml)) {
     console.error(`Frontend build missing: ${indexHtml}`)
@@ -82,7 +88,7 @@ if (isProduction) {
   app.get(/^(?!\/api).*/, (_req, res) => {
     res.sendFile(path.join(distPath, 'index.html'))
   })
-} else {
+} else if (!isProduction) {
   app.use((_req, res) => {
     res.status(404).json({ message: 'Route not found.' })
   })

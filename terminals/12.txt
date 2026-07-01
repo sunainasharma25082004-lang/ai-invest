@@ -3,7 +3,7 @@ pid: 7328
 cwd: "C:\Users\hi\OneDrive\Desktop\all web\AI-INVEST"
 command: "Set-Location \"C:\\Users\\hi\\OneDrive\\Desktop\\all web\\AI-INVEST\"; npm run dev"
 started_at: 2026-07-01T05:25:10.833Z
-running_for_ms: 855003   
+running_for_ms: 1845014  
 ---
 
 > ai-invest@0.0.0 dev

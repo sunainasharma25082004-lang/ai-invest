@@ -2,6 +2,7 @@ import dotenv from 'dotenv'
 import express from 'express'
 import cors from 'cors'
 import path from 'node:path'
+import { existsSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import { connectDB } from './db/connect.js'
 import authRoutes from './routes/auth.js'
@@ -10,7 +11,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url))
 dotenv.config({ path: path.join(__dirname, '.env') })
 dotenv.config({ path: path.join(__dirname, '../.env') })
 
-const distPath = path.join(__dirname, '../dist')
+const distPath = path.join(__dirname, 'dist')
 const isProduction = process.env.NODE_ENV === 'production'
 
 const app = express()
@@ -69,6 +70,13 @@ app.use((req, res, next) => {
 })
 
 if (isProduction) {
+  const indexHtml = path.join(distPath, 'index.html')
+  if (!existsSync(indexHtml)) {
+    console.error(`Frontend build missing: ${indexHtml}`)
+    console.error('Run "npm run build" from the repo root before starting in production.')
+    process.exit(1)
+  }
+
   app.use(express.static(distPath))
 
   app.get(/^(?!\/api).*/, (_req, res) => {

@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "node --watch index.js",
-    "start": "node index.js"
+    "start": "node index.js",
+    "build": "npm install --include=dev --prefix .. && npm run build --prefix .."
   },
   "engines": {
     "node": ">=20"

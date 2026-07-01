@@ -12,6 +12,7 @@ server/node_modules
 .env
 server/.env
 dist
+server/dist
 dist-ssr
 *.local
 

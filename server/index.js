@@ -1,4 +1,4 @@
-import 'dotenv/config'
+import dotenv from 'dotenv'
 import express from 'express'
 import cors from 'cors'
 import path from 'node:path'
@@ -7,12 +7,16 @@ import { connectDB } from './db/connect.js'
 import authRoutes from './routes/auth.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
+dotenv.config({ path: path.join(__dirname, '.env') })
+dotenv.config({ path: path.join(__dirname, '../.env') })
+
 const distPath = path.join(__dirname, '../dist')
 const isProduction = process.env.NODE_ENV === 'production'
 
 const app = express()
 const PORT = process.env.PORT || 3001
-const CLIENT_ORIGIN = process.env.CLIENT_ORIGIN || 'http://localhost:5173'
+const CLIENT_ORIGIN =
+  process.env.CLIENT_ORIGIN || process.env.RENDER_EXTERNAL_URL || 'http://localhost:5173'
 
 const allowedOrigins = new Set(
   [
@@ -77,16 +81,29 @@ if (isProduction) {
 }
 
 async function startServer() {
+  if (isProduction && !process.env.MONGODB_URI) {
+    console.error(
+      'MONGODB_URI is required in production. Add it in Render → Environment.',
+    )
+    process.exit(1)
+  }
+
   try {
     await connectDB()
-    app.listen(PORT, () => {
+    app.listen(PORT, '0.0.0.0', () => {
       console.log(`Server running on port ${PORT}`)
       if (isProduction) {
         console.log('Serving frontend from dist/')
+        console.log(`App URL: ${CLIENT_ORIGIN}`)
       }
     })
   } catch (error) {
     console.error('Failed to start server:', error.message)
+    if (isProduction && /whitelist|IP|ENOTFOUND|authentication/i.test(error.message)) {
+      console.error(
+        'MongoDB Atlas fix: Network Access → Add IP → Allow access from anywhere (0.0.0.0/0).',
+      )
+    }
     process.exit(1)
   }
 }

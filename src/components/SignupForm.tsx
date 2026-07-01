@@ -147,13 +147,13 @@ export default function SignupForm() {
 
   if (user) {
     return (
-      <section id="signup" className="relative py-20 md:py-28">
-        <div className="mx-auto max-w-2xl px-6 text-center">
-          <div className="glass-card rounded-2xl p-10">
+      <section id="signup" className="relative py-16 sm:py-20 md:py-28">
+        <div className="mx-auto max-w-2xl px-4 text-center sm:px-6">
+          <div className="glass-card rounded-2xl p-6 sm:p-10">
             <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-emerald-500/20">
               <Send className="h-8 w-8 text-emerald-400" />
             </div>
-            <h2 className="text-2xl font-bold text-white">
+            <h2 className="text-xl font-bold text-white sm:text-2xl">
               Welcome, {user.firstName}!
             </h2>
             <p className="mt-3 text-slate-400">
@@ -175,33 +175,33 @@ export default function SignupForm() {
   }
 
   return (
-    <section id="signup" className="relative py-20 md:py-28">
-      <div className="glow-orb right-0 top-0 h-72 w-72 bg-cyan-500/15" />
+    <section id="signup" className="relative py-16 sm:py-20 md:py-28">
+      <div className="glow-orb right-0 top-0 h-48 w-48 bg-cyan-500/15 sm:h-72 sm:w-72" />
 
-      <div className="relative mx-auto max-w-3xl px-6">
+      <div className="relative mx-auto max-w-3xl px-4 sm:px-6">
         <div className="text-center">
           <p className="text-sm font-semibold uppercase tracking-wider text-cyan-400">
             Account Access
           </p>
-          <h2 className="mt-3 text-3xl font-bold tracking-tight text-white md:text-4xl">
+          <h2 className="mt-3 text-2xl font-bold tracking-tight text-white sm:text-3xl md:text-4xl">
             {mode === 'signup' ? 'Create Your Free Account' : 'Sign In to Your Account'}
           </h2>
-          <p className="mx-auto mt-4 max-w-xl text-slate-400">
+          <p className="mx-auto mt-4 max-w-xl text-sm text-slate-400 sm:text-base">
             {mode === 'signup'
               ? 'Fill in the form below to access our research dashboard. Your data is protected under our Privacy Policy and is never sold to third parties.'
               : 'Welcome back. Sign in with your email and password to access your research dashboard.'}
           </p>
         </div>
 
-        <div className="mt-8 flex justify-center">
-          <div className="inline-flex rounded-full border border-slate-700 bg-slate-900/60 p-1">
+        <div className="mt-6 flex justify-center sm:mt-8">
+          <div className="inline-flex w-full max-w-sm rounded-full border border-slate-700 bg-slate-900/60 p-1 sm:w-auto sm:max-w-none">
             <button
               type="button"
               onClick={() => {
                 setMode('signup')
                 setError('')
               }}
-              className={`rounded-full px-5 py-2 text-sm font-semibold transition-colors ${
+              className={`flex-1 rounded-full px-4 py-2.5 text-sm font-semibold transition-colors sm:flex-none sm:px-5 ${
                 mode === 'signup'
                   ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white'
                   : 'text-slate-400 hover:text-white'
@@ -215,7 +215,7 @@ export default function SignupForm() {
                 setMode('signin')
                 setError('')
               }}
-              className={`rounded-full px-5 py-2 text-sm font-semibold transition-colors ${
+              className={`flex-1 rounded-full px-4 py-2.5 text-sm font-semibold transition-colors sm:flex-none sm:px-5 ${
                 mode === 'signin'
                   ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white'
                   : 'text-slate-400 hover:text-white'
@@ -229,9 +229,9 @@ export default function SignupForm() {
         {mode === 'signup' ? (
           <form
             onSubmit={handleSignup}
-            className="glass-card mt-8 rounded-2xl p-8 md:p-10"
+            className="glass-card mt-6 rounded-2xl p-5 sm:mt-8 sm:p-8 md:p-10"
           >
-            <div className="grid gap-6 sm:grid-cols-2">
+            <div className="grid gap-5 sm:grid-cols-2 sm:gap-6">
               <div>
                 <label htmlFor="firstName" className="mb-2 block text-sm font-medium text-slate-300">
                   First Name
@@ -372,7 +372,7 @@ export default function SignupForm() {
             <button
               type="submit"
               disabled={loading}
-              className="mt-8 w-full rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 py-4 text-base font-bold uppercase tracking-wide text-white shadow-xl shadow-cyan-500/25 transition-all hover:shadow-cyan-500/40 hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-60"
+              className="mt-6 w-full rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 py-3.5 text-sm font-bold uppercase tracking-wide text-white shadow-xl shadow-cyan-500/25 transition-all hover:shadow-cyan-500/40 hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-60 sm:mt-8 sm:py-4 sm:text-base"
             >
               {loading ? 'Creating Account...' : 'Create Account'}
             </button>
@@ -385,9 +385,9 @@ export default function SignupForm() {
         ) : (
           <form
             onSubmit={handleSignin}
-            className="glass-card mt-8 rounded-2xl p-8 md:p-10"
+            className="glass-card mt-6 rounded-2xl p-5 sm:mt-8 sm:p-8 md:p-10"
           >
-            <div className="space-y-6">
+            <div className="space-y-5 sm:space-y-6">
               <div>
                 <label htmlFor="signinEmail" className="mb-2 block text-sm font-medium text-slate-300">
                   Email Address
@@ -429,7 +429,7 @@ export default function SignupForm() {
             <button
               type="submit"
               disabled={loading}
-              className="mt-8 w-full rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 py-4 text-base font-bold uppercase tracking-wide text-white shadow-xl shadow-cyan-500/25 transition-all hover:shadow-cyan-500/40 hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-60"
+              className="mt-6 w-full rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 py-3.5 text-sm font-bold uppercase tracking-wide text-white shadow-xl shadow-cyan-500/25 transition-all hover:shadow-cyan-500/40 hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-60 sm:mt-8 sm:py-4 sm:text-base"
             >
               {loading ? 'Signing In...' : 'Sign In'}
             </button>

@@ -2,9 +2,9 @@ import { AlertTriangle } from 'lucide-react'
 
 export default function RiskDisclaimer() {
   return (
-    <section className="relative py-12 md:py-16">
-      <div className="mx-auto max-w-6xl px-6">
-        <div className="rounded-2xl border-2 border-amber-500/40 bg-amber-500/5 p-8 md:p-10">
+    <section className="relative py-10 sm:py-12 md:py-16">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6">
+        <div className="rounded-2xl border-2 border-amber-500/40 bg-amber-500/5 p-5 sm:p-8 md:p-10">
           <div className="flex flex-col gap-4 md:flex-row md:items-start md:gap-6">
             <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-amber-500/20">
               <AlertTriangle className="h-6 w-6 text-amber-400" />

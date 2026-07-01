@@ -6,8 +6,8 @@ const footerLinks = [
 
 export default function Footer() {
   return (
-    <footer className="border-t border-slate-800 bg-slate-950 py-8">
-      <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-6 text-sm text-slate-500 md:flex-row">
+    <footer className="border-t border-slate-800 bg-slate-950 py-6 sm:py-8">
+      <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-4 text-center text-sm text-slate-500 sm:px-6 md:flex-row md:text-left">
         <p>© 2025 InvestAI Research Platform</p>
         <nav className="flex flex-wrap items-center justify-center gap-6">
           {footerLinks.map((link, i) => (

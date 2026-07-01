@@ -2,15 +2,15 @@ import { features } from '../data/content'
 
 export default function Features() {
   return (
-    <section id="features" className="relative py-20 md:py-28">
+    <section id="features" className="relative py-16 sm:py-20 md:py-28">
       <div className="glow-orb -left-20 top-1/2 h-64 w-64 bg-violet-600/10" />
 
-      <div className="relative mx-auto max-w-6xl px-6">
+      <div className="relative mx-auto max-w-6xl px-4 sm:px-6">
         <div className="mx-auto max-w-2xl text-center">
           <p className="text-sm font-semibold uppercase tracking-wider text-cyan-400">
             Platform Features
           </p>
-          <h2 className="mt-3 text-3xl font-bold tracking-tight text-white md:text-4xl">
+          <h2 className="mt-3 text-2xl font-bold tracking-tight text-white sm:text-3xl md:text-4xl">
             Everything you need to research digital assets
           </h2>
           <p className="mt-4 text-slate-400">
@@ -18,7 +18,7 @@ export default function Features() {
           </p>
         </div>
 
-        <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-10 grid gap-4 sm:mt-14 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
           {features.map((feature) => {
             const Icon = feature.icon
             return (

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Menu, X } from 'lucide-react'
 import logo from '../assets/logo-bg.png'
+import LanguageToggle from './LanguageToggle'
 
 const navLinks = [
   { label: 'About', href: '#about' },
@@ -54,6 +55,8 @@ export default function Navbar() {
         </ul>
 
         <div className="flex items-center gap-2 sm:gap-3">
+          <LanguageToggle />
+
           <a
             href="#signup"
             className="hidden rounded-full bg-gradient-to-r from-cyan-500 to-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-cyan-500/25 transition-all hover:shadow-cyan-500/40 hover:brightness-110 sm:inline-flex sm:px-5 sm:py-2.5"

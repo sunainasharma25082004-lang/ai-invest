@@ -1,0 +1,13 @@
+---
+pid: 9736
+cwd: "C:\Users\hi\OneDrive\Desktop\all web\AI-INVEST"
+command: "Stop-Process -Id 9628 -Force -ErrorAction SilentlyContinue; Set-Location \"C:\\Users\\hi\\OneDrive\\Desktop\\all web\\AI-INVEST\\server\"; npm start"
+started_at: 2026-07-02T06:52:15.842Z
+running_for_ms: 730004   
+---
+
+> ai-invest-server@1.0.0 start
+> node index.js
+
+MongoDB connected
+Server running on port 3001

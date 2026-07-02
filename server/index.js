@@ -13,6 +13,7 @@ dotenv.config({ path: path.join(__dirname, '.env') })
 dotenv.config({ path: path.join(__dirname, '../.env') })
 
 const distPath = path.join(__dirname, '..', 'dist')
+const adminDistPath = path.join(__dirname, '..', 'admin', 'dist')
 const isProduction = process.env.NODE_ENV === 'production'
 
 const app = express()
@@ -20,16 +21,31 @@ const PORT = process.env.PORT || 3001
 const CLIENT_ORIGIN =
   process.env.CLIENT_ORIGIN || process.env.RENDER_EXTERNAL_URL || 'http://localhost:5173'
 
-const allowedOrigins = new Set(
-  [
-    CLIENT_ORIGIN,
-    process.env.ADMIN_ORIGIN,
-    process.env.RENDER_EXTERNAL_URL,
-    'http://localhost:5173',
-    'http://localhost:4173',
-    'http://localhost:5174',
-  ].filter(Boolean),
-)
+function addOriginVariants(origins, value) {
+  if (!value) return
+  origins.add(value)
+  try {
+    const url = new URL(value)
+    const host = url.hostname
+    if (host.startsWith('www.')) {
+      origins.add(`${url.protocol}//${host.slice(4)}`)
+    } else {
+      origins.add(`${url.protocol}//www.${host}`)
+    }
+  } catch {
+    // ignore invalid URLs
+  }
+}
+
+const allowedOrigins = new Set([
+  'http://localhost:5173',
+  'http://localhost:4173',
+  'http://localhost:5174',
+])
+
+addOriginVariants(allowedOrigins, CLIENT_ORIGIN)
+addOriginVariants(allowedOrigins, process.env.ADMIN_ORIGIN)
+addOriginVariants(allowedOrigins, process.env.RENDER_EXTERNAL_URL)
 
 if (isProduction && !process.env.JWT_SECRET) {
   console.error('JWT_SECRET is required in production.')
@@ -77,18 +93,33 @@ const serveStatic = process.env.SERVE_STATIC !== 'false'
 
 if (isProduction && serveStatic) {
   const indexHtml = path.join(distPath, 'index.html')
+  const adminIndexHtml = path.join(adminDistPath, 'index.html')
+
   if (!existsSync(indexHtml)) {
     console.error(`Frontend build missing: ${indexHtml}`)
     console.error('Run "npm run build" from the repo root before starting in production.')
     process.exit(1)
   }
 
+  if (existsSync(adminIndexHtml)) {
+    app.get('/admin', (_req, res) => {
+      res.redirect('/admin/')
+    })
+    app.use('/admin', express.static(adminDistPath))
+    app.use('/admin', (_req, res) => {
+      res.sendFile(adminIndexHtml)
+    })
+    console.log('Admin panel available at /admin/')
+  } else {
+    console.warn(`Admin build missing: ${adminIndexHtml}`)
+  }
+
   app.use(express.static(distPath))
 
   app.get(/^(?!\/api).*/, (_req, res) => {
-    res.sendFile(path.join(distPath, 'index.html'))
+    res.sendFile(indexHtml)
   })
-} else if (!isProduction) {
+} else {
   app.use((_req, res) => {
     res.status(404).json({ message: 'Route not found.' })
   })
@@ -107,8 +138,12 @@ async function startServer() {
     app.listen(PORT, '0.0.0.0', () => {
       console.log(`Server running on port ${PORT}`)
       if (isProduction) {
-        console.log('Serving frontend from dist/')
-        console.log(`App URL: ${CLIENT_ORIGIN}`)
+        if (serveStatic) {
+          console.log('Serving frontend from dist/')
+        } else {
+          console.log('API-only mode (SERVE_STATIC=false)')
+        }
+        console.log(`CLIENT_ORIGIN: ${CLIENT_ORIGIN}`)
       }
     })
   } catch (error) {

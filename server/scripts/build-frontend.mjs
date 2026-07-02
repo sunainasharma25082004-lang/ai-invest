@@ -26,9 +26,28 @@ execSync('npm run build', {
   env,
 })
 
+execSync('npm install --prefix admin', {
+  cwd: rootDir,
+  stdio: 'inherit',
+  env,
+})
+
+execSync('npm run build:admin', {
+  cwd: rootDir,
+  stdio: 'inherit',
+  env,
+})
+
 if (!existsSync(distIndex)) {
   console.error(`Frontend build failed: missing ${distIndex}`)
   process.exit(1)
 }
 
+const adminDistIndex = join(rootDir, 'admin', 'dist', 'index.html')
+if (!existsSync(adminDistIndex)) {
+  console.error(`Admin build failed: missing ${adminDistIndex}`)
+  process.exit(1)
+}
+
 console.log(`Frontend ready at ${distIndex}`)
+console.log(`Admin panel ready at ${adminDistIndex}`)

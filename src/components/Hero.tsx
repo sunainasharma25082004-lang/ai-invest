@@ -1,5 +1,6 @@
 import { ArrowRight, CheckCircle2, Sparkles } from 'lucide-react'
 import { trustBadges } from '../data/content'
+import VideoBanner from './VideoBanner'
 
 export default function Hero() {
   return (
@@ -54,9 +55,11 @@ export default function Hero() {
             educational resources.
           </p>
 
+          <VideoBanner />
+
           <div
             className="animate-fade-up mt-8 flex flex-wrap items-center justify-center gap-2.5 sm:mt-10 sm:gap-4 md:gap-6"
-            style={{ animationDelay: '0.4s' }}
+            style={{ animationDelay: '0.5s' }}
           >
             {trustBadges.map((badge) => (
               <span

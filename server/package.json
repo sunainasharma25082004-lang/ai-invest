@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "node --watch index.js",
     "start": "node index.js",
+    "start:static": "node static-only.js",
     "build": "node scripts/build-frontend.mjs",
     "postinstall": "node scripts/render-postinstall.mjs"
   },

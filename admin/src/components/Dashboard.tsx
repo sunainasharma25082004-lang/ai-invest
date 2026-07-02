@@ -13,6 +13,7 @@ import {
 } from 'lucide-react'
 import { fetchStats, fetchSubmissions, type Stats, type Submission } from '../lib/api'
 import { clearAdminSession, getAdminUser } from '../lib/auth'
+import LanguageToggle from './LanguageToggle'
 
 type Props = {
   onLogout: () => void
@@ -110,6 +111,7 @@ export default function Dashboard({ onLogout }: Props) {
             </p>
           </div>
           <div className="flex items-center gap-3">
+            <LanguageToggle />
             <span className="hidden text-sm text-slate-400 sm:inline">{admin?.email}</span>
             <button
               type="button"

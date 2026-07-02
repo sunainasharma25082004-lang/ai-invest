@@ -1,0 +1,22 @@
+---
+pid: 7216
+cwd: "C:\Users\hi\OneDrive\Desktop\all web\AI-INVEST"
+command: "npm run build"
+started_at: 2026-07-02T10:09:50.337Z
+running_for_ms: 2075012  
+---
+
+> ai-invest@0.0.0 build
+> tsc -b && vite build
+
+vite v8.1.0 building client environment for production...
+transforming...✓ 66 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                         1.01 kB │ gzip:  0.53 kB
+dist/assets/logo-bg-Cx_bysi_.png       59.29 kB
+dist/assets/video_ai-PeKQG63q.mp4  37,654.05 kB
+dist/assets/index-CBr4RGxH.css         46.95 kB │ gzip:  8.07 kB
+dist/assets/index-C9C1BLN5.js         230.72 kB │ gzip: 71.10 kB
+
+✓ built in 1.98s

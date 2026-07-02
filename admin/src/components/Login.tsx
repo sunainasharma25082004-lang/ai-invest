@@ -2,6 +2,7 @@ import { useState, type FormEvent } from 'react'
 import { Lock, Shield } from 'lucide-react'
 import { adminLogin } from '../lib/api'
 import { saveAdminSession } from '../lib/auth'
+import LanguageToggle from './LanguageToggle'
 
 type Props = {
   onLogin: () => void
@@ -33,7 +34,10 @@ export default function Login({ onLogin }: Props) {
     'w-full rounded-xl border border-slate-700 bg-slate-900/80 px-4 py-3 text-white placeholder-slate-600 outline-none transition-colors focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500'
 
   return (
-    <div className="flex min-h-screen items-center justify-center px-4">
+    <div className="relative flex min-h-screen items-center justify-center px-4">
+      <div className="absolute right-4 top-4 sm:right-6 sm:top-6">
+        <LanguageToggle />
+      </div>
       <div className="w-full max-w-md">
         <div className="mb-8 text-center">
           <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-cyan-500/15">

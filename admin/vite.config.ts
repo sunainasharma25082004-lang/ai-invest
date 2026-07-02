@@ -2,7 +2,9 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 
-const base = process.env.VITE_BASE_PATH || '/admin/'
+// Standalone admin deploy (Render Static Site): default /
+// Bundled under main site at /admin/: set VITE_BASE_PATH=/admin/
+const base = process.env.VITE_BASE_PATH || '/'
 
 export default defineConfig({
   base,

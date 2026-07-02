@@ -21,31 +21,53 @@ const PORT = process.env.PORT || 3001
 const CLIENT_ORIGIN =
   process.env.CLIENT_ORIGIN || process.env.RENDER_EXTERNAL_URL || 'http://localhost:5173'
 
-function addOriginVariants(origins, value) {
+const trustedHostnames = new Set(['localhost'])
+
+function normalizeHostname(hostname) {
+  return hostname.replace(/^www\./, '').toLowerCase()
+}
+
+function registerTrustedOrigin(value) {
   if (!value) return
-  origins.add(value)
   try {
     const url = new URL(value)
-    const host = url.hostname
-    if (host.startsWith('www.')) {
-      origins.add(`${url.protocol}//${host.slice(4)}`)
-    } else {
-      origins.add(`${url.protocol}//www.${host}`)
-    }
+    const host = normalizeHostname(url.hostname)
+    trustedHostnames.add(host)
+    trustedHostnames.add(`www.${host}`)
   } catch {
-    // ignore invalid URLs
+    const trimmed = value.trim().replace(/^https?:\/\//, '').replace(/\/+$/, '')
+    if (trimmed) {
+      trustedHostnames.add(normalizeHostname(trimmed))
+      trustedHostnames.add(`www.${normalizeHostname(trimmed)}`)
+    }
   }
 }
 
-const allowedOrigins = new Set([
-  'http://localhost:5173',
-  'http://localhost:4173',
-  'http://localhost:5174',
-])
+registerTrustedOrigin(CLIENT_ORIGIN)
+registerTrustedOrigin(process.env.ADMIN_ORIGIN)
+registerTrustedOrigin(process.env.RENDER_EXTERNAL_URL)
+registerTrustedOrigin('https://investindigitalcurrency.com')
+registerTrustedOrigin('https://www.investindigitalcurrency.com')
+registerTrustedOrigin('https://ai-admin-dd0z.onrender.com')
 
-addOriginVariants(allowedOrigins, CLIENT_ORIGIN)
-addOriginVariants(allowedOrigins, process.env.ADMIN_ORIGIN)
-addOriginVariants(allowedOrigins, process.env.RENDER_EXTERNAL_URL)
+if (process.env.ALLOWED_ORIGINS) {
+  for (const origin of process.env.ALLOWED_ORIGINS.split(',')) {
+    registerTrustedOrigin(origin.trim())
+  }
+}
+
+function isOriginAllowed(origin) {
+  if (!origin) return true
+  try {
+    const hostname = normalizeHostname(new URL(origin).hostname)
+    for (const trusted of trustedHostnames) {
+      if (normalizeHostname(trusted) === hostname) return true
+    }
+  } catch {
+    return false
+  }
+  return false
+}
 
 if (isProduction && !process.env.JWT_SECRET) {
   console.error('JWT_SECRET is required in production.')
@@ -60,13 +82,15 @@ if (!process.env.JWT_SECRET) {
 app.use(
   cors({
     origin(origin, callback) {
-      if (!origin || allowedOrigins.has(origin)) {
-        callback(null, true)
+      if (isOriginAllowed(origin)) {
+        callback(null, origin || true)
         return
       }
-      callback(new Error('Not allowed by CORS'))
+      callback(null, false)
     },
     credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
   }),
 )
 app.use(express.json())
@@ -81,9 +105,10 @@ app.get('/api/health', (_req, res) => {
 
 app.use('/api/auth', authRoutes)
 app.use('/api/admin', adminRoutes)
+app.use('/auth', authRoutes)
 
 app.use((req, res, next) => {
-  if (req.path.startsWith('/api')) {
+  if (req.path.startsWith('/api') || req.path.startsWith('/auth')) {
     return res.status(404).json({ message: 'Route not found.' })
   }
   next()

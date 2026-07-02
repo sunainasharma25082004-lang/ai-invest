@@ -13,24 +13,24 @@ export default function VideoBanner() {
       if (hasStartedRef.current) return
       hasStartedRef.current = true
 
+      video.muted = true
+
       try {
         await video.play()
       } catch {
-        video.muted = true
-        try {
-          await video.play()
-        } catch {
-          hasStartedRef.current = false
-        }
+        hasStartedRef.current = false
       }
     }
+
+    const onLoaded = () => void startOnce()
 
     if (video.readyState >= 2) {
       void startOnce()
       return
     }
 
-    video.addEventListener('loadeddata', () => void startOnce(), { once: true })
+    video.addEventListener('loadedmetadata', onLoaded, { once: true })
+    return () => video.removeEventListener('loadedmetadata', onLoaded)
   }, [])
 
   return (
@@ -46,9 +46,10 @@ export default function VideoBanner() {
           <video
             ref={videoRef}
             controls
-            autoPlay
+            muted
             playsInline
-            preload="auto"
+            loop
+            preload="metadata"
             className="block w-full bg-slate-950 object-contain"
           >
             <source src={heroVideo} type="video/mp4" />

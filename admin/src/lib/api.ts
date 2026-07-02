@@ -1,6 +1,12 @@
 import { getAdminToken } from './auth'
 
-const API_BASE = import.meta.env.VITE_API_URL ?? '/api'
+function normalizeApiBase(value: string | undefined) {
+  if (!value || value === '/api') return '/api'
+  const trimmed = value.replace(/\/+$/, '')
+  return trimmed.endsWith('/api') ? trimmed : `${trimmed}/api`
+}
+
+const API_BASE = normalizeApiBase(import.meta.env.VITE_API_URL)
 
 export type Submission = {
   id: string
@@ -38,16 +44,26 @@ type AdminLoginResponse = {
 
 async function request<T>(path: string, options?: RequestInit): Promise<T> {
   const token = getAdminToken()
-  const response = await fetch(`${API_BASE}${path}`, {
-    headers: {
-      'Content-Type': 'application/json',
-      ...(token ? { Authorization: `Bearer ${token}` } : {}),
-      ...options?.headers,
-    },
-    ...options,
-  })
+  let response: Response
+  try {
+    response = await fetch(`${API_BASE}${path}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        ...options?.headers,
+      },
+      ...options,
+    })
+  } catch {
+    throw new Error('Unable to reach the server. Please try again in a moment.')
+  }
 
-  const data: unknown = await response.json()
+  let data: unknown
+  try {
+    data = await response.json()
+  } catch {
+    throw new Error('Unexpected server response. Please try again.')
+  }
 
   if (!response.ok) {
     const message =

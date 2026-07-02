@@ -3,7 +3,7 @@ pid: 17684
 cwd: "C:\Users\hi\OneDrive\Desktop\all web\AI-INVEST"
 command: "npm run build; npm run build --prefix admin"
 started_at: 2026-07-02T10:17:46.483Z
-running_for_ms: 1600005  
+running_for_ms: 5344999  
 ---
 
 > ai-invest@0.0.0 build

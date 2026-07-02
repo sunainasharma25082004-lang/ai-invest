@@ -2,9 +2,9 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 
-// Standalone admin deploy (Render Static Site): default /
-// Bundled under main site at /admin/: set VITE_BASE_PATH=/admin/
-const base = process.env.VITE_BASE_PATH || '/'
+// Standalone Render deploy: base /
+// Main site subpath /admin/: npm run build:subpath (ADMIN_BUILD_MODE=subpath)
+const base = process.env.ADMIN_BUILD_MODE === 'subpath' ? '/admin/' : '/'
 
 export default defineConfig({
   base,

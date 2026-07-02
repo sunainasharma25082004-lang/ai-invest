@@ -1,6 +1,8 @@
 import dotenv from 'dotenv'
 import express from 'express'
 import cors from 'cors'
+import helmet from 'helmet'
+import rateLimit from 'express-rate-limit'
 import path from 'node:path'
 import { existsSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
@@ -16,10 +18,17 @@ const distPath = path.join(__dirname, '..', 'dist')
 const adminDistPath = path.join(__dirname, '..', 'admin', 'dist')
 const isProduction = process.env.NODE_ENV === 'production'
 
+const DEFAULT_CLIENT_ORIGIN = 'https://investindigitalcurrency.com'
+const DEFAULT_ADMIN_ORIGIN = 'https://ai-admin-dd0z.onrender.com'
+
 const app = express()
 const PORT = process.env.PORT || 3001
 const CLIENT_ORIGIN =
-  process.env.CLIENT_ORIGIN || process.env.RENDER_EXTERNAL_URL || 'http://localhost:5173'
+  process.env.CLIENT_ORIGIN ||
+  (isProduction ? DEFAULT_CLIENT_ORIGIN : 'http://localhost:5173')
+const ADMIN_ORIGIN =
+  process.env.ADMIN_ORIGIN ||
+  (isProduction ? DEFAULT_ADMIN_ORIGIN : 'http://localhost:5174')
 
 const trustedHostnames = new Set(['localhost'])
 
@@ -44,11 +53,14 @@ function registerTrustedOrigin(value) {
 }
 
 registerTrustedOrigin(CLIENT_ORIGIN)
-registerTrustedOrigin(process.env.ADMIN_ORIGIN)
+registerTrustedOrigin(ADMIN_ORIGIN)
 registerTrustedOrigin(process.env.RENDER_EXTERNAL_URL)
-registerTrustedOrigin('https://investindigitalcurrency.com')
-registerTrustedOrigin('https://www.investindigitalcurrency.com')
-registerTrustedOrigin('https://ai-admin-dd0z.onrender.com')
+
+if (isProduction) {
+  registerTrustedOrigin(DEFAULT_CLIENT_ORIGIN)
+  registerTrustedOrigin(`www.${normalizeHostname(new URL(DEFAULT_CLIENT_ORIGIN).hostname)}`)
+  registerTrustedOrigin(DEFAULT_ADMIN_ORIGIN)
+}
 
 if (process.env.ALLOWED_ORIGINS) {
   for (const origin of process.env.ALLOWED_ORIGINS.split(',')) {
@@ -79,6 +91,14 @@ if (!process.env.JWT_SECRET) {
   process.env.JWT_SECRET = 'dev-only-change-in-production'
 }
 
+if (isProduction) {
+  app.use(
+    helmet({
+      crossOriginResourcePolicy: { policy: 'cross-origin' },
+    }),
+  )
+}
+
 app.use(
   cors({
     origin(origin, callback) {
@@ -93,7 +113,23 @@ app.use(
     allowedHeaders: ['Content-Type', 'Authorization'],
   }),
 )
-app.use(express.json())
+app.use(express.json({ limit: '1mb' }))
+
+const authLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: isProduction ? 30 : 200,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { message: 'Too many requests. Please try again later.' },
+})
+
+const loginLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: isProduction ? 15 : 100,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { message: 'Too many login attempts. Please try again later.' },
+})
 
 app.get('/api/health', (_req, res) => {
   res.json({
@@ -103,18 +139,33 @@ app.get('/api/health', (_req, res) => {
   })
 })
 
+app.post('/api/admin/login', loginLimiter)
+app.post('/api/auth/signup', authLimiter)
+app.post('/api/auth/signin', authLimiter)
+app.post('/auth/signup', authLimiter)
+app.post('/auth/signin', authLimiter)
+
 app.use('/api/auth', authRoutes)
 app.use('/api/admin', adminRoutes)
 app.use('/auth', authRoutes)
 
+const serveStatic = process.env.SERVE_STATIC !== 'false'
+
+if (!serveStatic) {
+  app.post('/admin/login', loginLimiter)
+  app.use('/admin', adminRoutes)
+}
+
 app.use((req, res, next) => {
-  if (req.path.startsWith('/api') || req.path.startsWith('/auth')) {
+  const isApiPath =
+    req.path.startsWith('/api') ||
+    req.path.startsWith('/auth') ||
+    (!serveStatic && req.path.startsWith('/admin'))
+  if (isApiPath) {
     return res.status(404).json({ message: 'Route not found.' })
   }
   next()
 })
-
-const serveStatic = process.env.SERVE_STATIC !== 'false'
 
 if (isProduction && serveStatic) {
   const indexHtml = path.join(distPath, 'index.html')
@@ -144,7 +195,7 @@ if (isProduction && serveStatic) {
   app.get(/^(?!\/api).*/, (_req, res) => {
     res.sendFile(indexHtml)
   })
-} else {
+} else if (!serveStatic) {
   app.use((_req, res) => {
     res.status(404).json({ message: 'Route not found.' })
   })
@@ -169,6 +220,7 @@ async function startServer() {
           console.log('API-only mode (SERVE_STATIC=false)')
         }
         console.log(`CLIENT_ORIGIN: ${CLIENT_ORIGIN}`)
+        console.log(`ADMIN_ORIGIN: ${ADMIN_ORIGIN}`)
       }
     })
   } catch (error) {

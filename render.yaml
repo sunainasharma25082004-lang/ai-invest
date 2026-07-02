@@ -1,21 +1,54 @@
+# 3-service production deploy on Render
+# Frontend: investindigitalcurrency.com (custom domain on frontend service)
+# API: ai-invest-api-bznc.onrender.com
+# Admin: ai-admin-dd0z.onrender.com
+
 services:
   - type: web
-    name: ai-invest
+    name: ai-invest-api
     runtime: node
     plan: free
-    buildCommand: npm run build:render
+    rootDir: server
+    buildCommand: npm install
     startCommand: npm start
     healthCheckPath: /api/health
     envVars:
       - key: NODE_ENV
         value: production
+      - key: SERVE_STATIC
+        value: false
       - key: JWT_SECRET
         generateValue: true
       - key: MONGODB_URI
         sync: false
       - key: CLIENT_ORIGIN
-        sync: false
+        value: https://investindigitalcurrency.com
+      - key: ADMIN_ORIGIN
+        value: https://ai-admin-dd0z.onrender.com
+      - key: ALLOWED_ORIGINS
+        value: https://investindigitalcurrency.com,https://www.investindigitalcurrency.com,https://ai-admin-dd0z.onrender.com
       - key: ADMIN_EMAIL
         sync: false
       - key: ADMIN_PASSWORD
         sync: false
+
+  - type: web
+    name: ai-invest-frontend
+    runtime: static
+    plan: free
+    buildCommand: npm install --include=dev && npm run build
+    staticPublishPath: dist
+    envVars:
+      - key: VITE_API_URL
+        value: https://ai-invest-api-bznc.onrender.com/api
+
+  - type: web
+    name: ai-admin
+    runtime: static
+    plan: free
+    rootDir: admin
+    buildCommand: npm install --include=dev && npm run build
+    staticPublishPath: dist
+    envVars:
+      - key: VITE_API_URL
+        value: https://ai-invest-api-bznc.onrender.com/api

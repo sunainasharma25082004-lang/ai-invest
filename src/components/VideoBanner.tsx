@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react'
-import heroVideo from '../assets/video/video_ai.mp4'
+
+const VIDEO_SRC = '/video/video_ai.mp4'
 
 export default function VideoBanner() {
   const videoRef = useRef<HTMLVideoElement>(null)
@@ -49,10 +50,10 @@ export default function VideoBanner() {
             muted
             playsInline
             loop
-            preload="metadata"
+            preload="none"
             className="block w-full bg-slate-950 object-contain"
           >
-            <source src={heroVideo} type="video/mp4" />
+            <source src={VIDEO_SRC} type="video/mp4" />
           </video>
         </div>
       </div>

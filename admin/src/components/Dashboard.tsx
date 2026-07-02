@@ -52,8 +52,13 @@ export default function Dashboard({ onLogout }: Props) {
       setTotalPages(submissionsData.pagination.pages)
       setTotal(submissionsData.pagination.total)
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Unable to load data.')
-      if (err instanceof Error && err.message.includes('token')) {
+      const message = err instanceof Error ? err.message : 'Unable to load data.'
+      setError(message)
+      if (
+        /token|authentication required|invalid or expired|admin access required/i.test(
+          message,
+        )
+      ) {
         clearAdminSession()
         onLogout()
       }

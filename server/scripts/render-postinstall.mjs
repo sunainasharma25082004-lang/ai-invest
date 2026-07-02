@@ -9,6 +9,11 @@ if (!isRender) {
   process.exit(0)
 }
 
+if (process.env.SERVE_STATIC === 'false' || process.env.SKIP_FRONTEND_BUILD === 'true') {
+  console.log('API-only mode: skipping frontend build.')
+  process.exit(0)
+}
+
 if (existsSync(distIndex)) {
   console.log('Frontend dist already present, skipping build.')
   process.exit(0)

@@ -18,11 +18,7 @@ import {
 
 type LanguageContextValue = {
   language: SiteLanguage
-  previewLanguage: SiteLanguage
-  setPreviewLanguage: (lang: SiteLanguage) => void
   setLanguage: (lang: SiteLanguage) => Promise<void>
-  hasSelectedLanguage: boolean
-  confirmLanguage: () => Promise<void>
   isRtl: boolean
   isTranslating: boolean
 }
@@ -33,25 +29,16 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   const [language, setLanguageState] = useState<SiteLanguage>(
     () => getStoredLanguage() ?? 'en',
   )
-  const [previewLanguage, setPreviewLanguageState] = useState<SiteLanguage>(
-    () => getStoredLanguage() ?? 'en',
-  )
-  const [hasSelectedLanguage, setHasSelectedLanguage] = useState(
-    () => getStoredLanguage() !== null,
-  )
   const [isTranslating, setIsTranslating] = useState(false)
 
   useEffect(() => {
-    if (!hasSelectedLanguage) return
     void syncGoogleTranslateOnLoad()
-  }, [hasSelectedLanguage])
+  }, [])
 
   const setLanguage = useCallback(async (lang: SiteLanguage) => {
     setIsTranslating(true)
     setLanguageState(lang)
-    setPreviewLanguageState(lang)
     saveLanguagePreference(lang)
-    setHasSelectedLanguage(true)
     applyDocumentDirection(lang)
 
     try {
@@ -61,34 +48,14 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     }
   }, [])
 
-  const setPreviewLanguage = useCallback((lang: SiteLanguage) => {
-    setPreviewLanguageState(lang)
-  }, [])
-
-  const confirmLanguage = useCallback(async () => {
-    await setLanguage(previewLanguage)
-  }, [previewLanguage, setLanguage])
-
   const value = useMemo(
     () => ({
       language,
-      previewLanguage,
-      setPreviewLanguage,
       setLanguage,
-      hasSelectedLanguage,
-      confirmLanguage,
       isRtl: language === 'ar',
       isTranslating,
     }),
-    [
-      language,
-      previewLanguage,
-      setPreviewLanguage,
-      setLanguage,
-      hasSelectedLanguage,
-      confirmLanguage,
-      isTranslating,
-    ],
+    [language, setLanguage, isTranslating],
   )
 
   return <LanguageContext.Provider value={value}>{children}</LanguageContext.Provider>
